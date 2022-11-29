@@ -254,6 +254,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  isCarFlipped: 0
+  isFlipping: 0
+  timeBeforeFlip: 2
+  flipSpeed: 2
   modifiedDrag: 1
   alignToGroundTime: 20
 --- !u!4 &308509492
@@ -294,7 +298,6 @@ MonoBehaviour:
   trails:
   - {fileID: 1024116532}
   - {fileID: 1780392898}
-  smoke: {fileID: 0}
   rotationSpeed: 1000
 --- !u!95 &308509494
 Animator:

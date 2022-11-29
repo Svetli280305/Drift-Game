@@ -7,7 +7,7 @@ public class WheelController : MonoBehaviour
 
     public GameObject[] wheelsToRotate;
     public TrailRenderer[] trails;
-    public ParticleSystem smoke;
+    //public ParticleSystem smoke;
 
     public float rotationSpeed;
     private Animator anim;
@@ -55,8 +55,8 @@ public class WheelController : MonoBehaviour
                 trail.emitting = true;
             }
 
-            var emission = smoke.emission;
-            emission.rateOverTime = 50f;
+            //var emission = smoke.emission;
+            //emission.rateOverTime = 50f;
         }
         else
         {
@@ -65,8 +65,8 @@ public class WheelController : MonoBehaviour
                 trail.emitting = false;
             }
 
-            var emission = smoke.emission;
-            emission.rateOverTime = 0f;
+            //var emission = smoke.emission;
+            // emission.rateOverTime = 0f;
         }
     }
 }
