@@ -12,10 +12,15 @@ public class WheelController : MonoBehaviour
     public float rotationSpeed;
     private Animator anim;
 
+    public AudioSource accelerationSource;
+    float accelerationPitch = 0.5f;
+    public AudioSource tyreSource;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        //accelerationPitch = accelerationSource.pitch;
     }
 
     // Update is called once per frame
@@ -27,7 +32,23 @@ public class WheelController : MonoBehaviour
         foreach (var wheel in wheelsToRotate)
         {
             wheel.transform.Rotate(Time.deltaTime * verticalAxis * rotationSpeed, 0, 0, Space.Self);
+            if (verticalAxis != 0)
+            {
+                //! play acceleration sound
+                if (!accelerationSource.isPlaying)
+                {
+                    accelerationSource.UnPause();
+                }
+                else accelerationPitch += Time.deltaTime / 10;
+            }
+            else
+            {
+                accelerationSource.Pause();
+                accelerationPitch -= Time.deltaTime / 30;
+            }
         }
+
+        //accelerationSource.pitch = accelerationPitch;
 
         if (horizontalAxis > 0)
         {
@@ -53,6 +74,9 @@ public class WheelController : MonoBehaviour
             foreach (var trail in trails)
             {
                 trail.emitting = true;
+
+                //! play tyre sound
+                if (!tyreSource.isPlaying) tyreSource.Play();
             }
 
             //var emission = smoke.emission;
@@ -63,6 +87,9 @@ public class WheelController : MonoBehaviour
             foreach (var trail in trails)
             {
                 trail.emitting = false;
+
+                //! stop tyre sound
+                tyreSource.Stop();
             }
 
             //var emission = smoke.emission;
