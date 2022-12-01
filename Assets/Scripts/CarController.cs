@@ -6,6 +6,8 @@ public class CarController : MonoBehaviour
 {
 
     public Rigidbody sphereRB;
+
+    public Vector3 startPosition;
     
     public float fwdSpeed;
     public float revSpeed;
@@ -107,6 +109,14 @@ public class CarController : MonoBehaviour
             isFlipping = false;
             isCarFlipped = false;
             Debug.Log("Finished Flip!");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "death box")
+        {
+            sphereRB.transform.position = startPosition;
         }
     }
 }
