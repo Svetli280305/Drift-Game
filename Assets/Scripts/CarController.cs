@@ -13,9 +13,8 @@ public class CarController : MonoBehaviour
     public float revSpeed;
     public float turnSpeed;
     public LayerMask groundLayer;
-    private float moveInput;
-    public float moveAmount;
-    private float turnInput;
+    public float moveInput;
+    public float turnInput;
     private bool isCarGrounded;
     public bool isCarFlipped;
     public bool isFlipping;
@@ -41,11 +40,13 @@ public class CarController : MonoBehaviour
         // Get Input
         moveInput = Input.GetAxisRaw("Vertical");
         turnInput = Input.GetAxisRaw("Horizontal");
+
         // Calculate Turning Rotation
-        float newRot = turnInput * turnSpeed * Time.deltaTime * moveAmount;
+        float newRot = turnInput * turnSpeed * Time.deltaTime * moveInput;
 
         if (isCarGrounded)
             transform.Rotate(0, newRot, 0, Space.World);
+
         // Set Cars Position to Our Sphere
         transform.position = sphereRB.transform.position;
         // Raycast to the ground and get normal to align car with it.
@@ -65,7 +66,6 @@ public class CarController : MonoBehaviour
         
         // Calculate Movement Direction
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
-        moveAmount = moveInput;
         
         // Calculate Drag
         sphereRB.drag = isCarGrounded ? normalDrag : modifiedDrag;
@@ -92,7 +92,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         if (isCarGrounded)
-            sphereRB.AddForce(transform.forward * moveAmount, ForceMode.Acceleration); // Add Movement
+            sphereRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration); // Add Movement
         else
             sphereRB.AddForce(Vector3.up * -400f * Time.deltaTime); // Add Gravity
     }
@@ -120,14 +120,5 @@ public class CarController : MonoBehaviour
         {
             sphereRB.transform.position = startPosition;
         }
-    }
-
-    public void Turn(float turnInput)
-    {
-        // Calculate Turning Rotation
-        float newRot = turnInput * turnSpeed * Time.deltaTime * moveAmount;
-
-        if (isCarGrounded)
-            transform.Rotate(0, newRot, 0, Space.World);
     }
 }

@@ -13,13 +13,36 @@ public class Steer : MonoBehaviour
 {
     [SerializeField] Directions steerDirection;
 
-    void Start()
+
+    public bool isPressed;
+
+    void Turn()
     {
-        
+        CarController cc = FindObjectOfType<CarController>();
+
+        if (steerDirection == Directions.left)
+        {
+            cc.turnInput = -1.0f;
+        }
+        else
+        {
+            cc.turnInput = 1.0f;
+        }
     }
 
-    public void OnClick()
+    public void OnUpdateSelected(BaseEventData data)
     {
-        FindObjectOfType<CarController>().Turn(steerDirection == Directions.left ? -1 : 1);
+        if (isPressed)
+        {
+            Turn();
+        }
+    }
+    public void OnPointerDown(PointerEventData data)
+    {
+        isPressed = true;
+    }
+    public void OnPointerUp(PointerEventData data)
+    {
+        isPressed = false;
     }
 }
