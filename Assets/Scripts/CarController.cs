@@ -14,6 +14,7 @@ public class CarController : MonoBehaviour
     public float turnSpeed;
     public LayerMask groundLayer;
     private float moveInput;
+    public float moveAmount;
     private float turnInput;
     private bool isCarGrounded;
     public bool isCarFlipped;
@@ -41,8 +42,8 @@ public class CarController : MonoBehaviour
         moveInput = Input.GetAxisRaw("Vertical");
         turnInput = Input.GetAxisRaw("Horizontal");
         // Calculate Turning Rotation
-        float newRot = turnInput * turnSpeed * Time.deltaTime * moveInput;
-        
+        float newRot = turnInput * turnSpeed * Time.deltaTime * moveAmount;
+
         if (isCarGrounded)
             transform.Rotate(0, newRot, 0, Space.World);
         // Set Cars Position to Our Sphere
@@ -64,6 +65,7 @@ public class CarController : MonoBehaviour
         
         // Calculate Movement Direction
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
+        moveAmount = moveInput;
         
         // Calculate Drag
         sphereRB.drag = isCarGrounded ? normalDrag : modifiedDrag;
@@ -90,7 +92,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         if (isCarGrounded)
-            sphereRB.AddForce(transform.forward * moveInput, ForceMode.Acceleration); // Add Movement
+            sphereRB.AddForce(transform.forward * moveAmount, ForceMode.Acceleration); // Add Movement
         else
             sphereRB.AddForce(Vector3.up * -400f * Time.deltaTime); // Add Gravity
     }
@@ -118,5 +120,14 @@ public class CarController : MonoBehaviour
         {
             sphereRB.transform.position = startPosition;
         }
+    }
+
+    public void Turn(float turnInput)
+    {
+        // Calculate Turning Rotation
+        float newRot = turnInput * turnSpeed * Time.deltaTime * moveAmount;
+
+        if (isCarGrounded)
+            transform.Rotate(0, newRot, 0, Space.World);
     }
 }
