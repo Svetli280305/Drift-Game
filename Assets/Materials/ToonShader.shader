@@ -39,8 +39,6 @@ Shader "Custom/ToonShader"
             v2f vert(appdata v)
             {
                 v2f o;
-                // Translate the vertex along the normal vector
-                // This will increase the size of the model
                 o.vertex = UnityObjectToClipPos(v.vertex + _InkSize * v.normal);
                 return o;
             };
