@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum Directions
+public enum Pedals
 {
-    left,
-    right
+    accelerate,
+    brake
 }
 
-public class Steer : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Pedal : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] Directions steerDirection;
+    [SerializeField] Pedals pedalType;
 
     public bool isPressed;
 
@@ -19,19 +19,19 @@ public class Steer : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         isPressed = true;
         CarController cc = FindObjectOfType<CarController>();
-        if (steerDirection == Directions.left)
+        if (pedalType == Pedals.brake)
         {
-            cc.turnInput = -1.0f;
+            cc.moveInput = -1.0f;
         }
         else
         {
-            cc.turnInput = 1.0f;
+            cc.moveInput = 1.0f;
         }
     }
     public void OnPointerUp(PointerEventData data)
     {
         isPressed = false;
         CarController cc = FindObjectOfType<CarController>();
-        cc.turnInput = 0.0f;
+        cc.moveInput = 0.0f;
     }
 }

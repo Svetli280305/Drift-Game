@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CarController : MonoBehaviour
 {
-
     public Rigidbody sphereRB;
 
     public Vector3 startPosition;
@@ -13,20 +13,20 @@ public class CarController : MonoBehaviour
     public float revSpeed;
     public float turnSpeed;
     public LayerMask groundLayer;
-    public float moveInput;
-    public float turnInput;
+    public float moveInput = 0.0f;
+    public float turnInput = 0.0f;
     private bool isCarGrounded;
     public bool isCarFlipped;
     public bool isFlipping;
     float timeFlipped;
     [SerializeField] float timeBeforeFlip = 2f;
-     [SerializeField] float flipSpeed = 2f;
+    [SerializeField] float flipSpeed = 2f;
     
     private float normalDrag;
     public float modifiedDrag;
     
     public float alignToGroundTime;
-    
+
     void Start()
     {
         // Detach Sphere from car
@@ -37,9 +37,13 @@ public class CarController : MonoBehaviour
     
     void Update()
     {
-        // Get Input
-        moveInput = Input.GetAxisRaw("Vertical");
-        turnInput = Input.GetAxisRaw("Horizontal");
+        if (FindObjectOfType<GameManager>().inputType == InputType.keyboard)
+        {
+            // Get Input
+            moveInput = Input.GetAxisRaw("Vertical");
+            turnInput = Input.GetAxisRaw("Horizontal");
+        }
+        moveInput = Mathf.Clamp(moveInput, -1.0f, 1.0f);
 
         // Calculate Turning Rotation
         float newRot = turnInput * turnSpeed * Time.deltaTime * moveInput;

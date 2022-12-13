@@ -16,23 +16,28 @@ public class WheelController : MonoBehaviour
     float accelerationPitch = 0.5f;
     public AudioSource tyreSource;
 
+    CarController cc;
+    public float moveInput;
+    public float turnInput;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        cc = FindObjectOfType<CarController>();
         //accelerationPitch = accelerationSource.pitch;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float verticalAxis = Input.GetAxisRaw("Vertical");
-        float horizontalAxis = Input.GetAxisRaw("Horizontal");
+        moveInput = cc.moveInput;
+        turnInput = cc.turnInput;
 
         foreach (var wheel in wheelsToRotate)
         {
-            wheel.transform.Rotate(Time.deltaTime * verticalAxis * rotationSpeed, 0, 0, Space.Self);
-            if (verticalAxis != 0)
+            wheel.transform.Rotate(Time.deltaTime * moveInput * rotationSpeed, 0, 0, Space.Self);
+            if (moveInput != 0)
             {
                 //! play acceleration sound
                 if (!accelerationSource.isPlaying)
@@ -50,13 +55,13 @@ public class WheelController : MonoBehaviour
 
         //accelerationSource.pitch = accelerationPitch;
 
-        if (horizontalAxis > 0)
+        if (turnInput > 0)
         {
             //turning right
             anim.SetBool("goingLeft", false);
             anim.SetBool("goingRight", true);
         }
-        else if (horizontalAxis < 0)
+        else if (turnInput < 0)
         {
             //turning left
             anim.SetBool("goingRight", false);
@@ -69,7 +74,7 @@ public class WheelController : MonoBehaviour
             anim.SetBool("goingLeft", false);
         }
 
-        if (horizontalAxis != 0)
+        if (turnInput != 0)
         {
             foreach (var trail in trails)
             {
