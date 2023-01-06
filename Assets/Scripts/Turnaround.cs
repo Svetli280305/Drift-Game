@@ -5,21 +5,31 @@ using UnityEngine;
 public class Turnaround : MonoBehaviour
 {
     [SerializeField] Transform animals;
-    List<GameObject> animalObjects;
-    [SerializeField] CameraRotate cam;
+    public List<GameObject> animalObjects;
+    [SerializeField] GameObject cam;
 
     private void Start()
     {
+        cam.GetComponent<CameraRotate>().degreesToRotate = 0;
         foreach (Transform child in animals)
         {
             child.gameObject.SetActive(false);
             animalObjects.Add(child.gameObject);
-            cam.degreesToRotate += 360;
+            cam.GetComponent<CameraRotate>().degreesToRotate += 360;
         }
     }
 
     private void Update()
     {
-        animalObjects[(int)Mathf.Floor(cam.totalRotation / 360.0f)].SetActive(true);
+        int currentIndex = (int)Mathf.Floor(cam.GetComponent<CameraRotate>().totalRotation / 360.0f);
+        Debug.Log(currentIndex);
+        if (currentIndex - 1 >= 0 && animalObjects.Count > currentIndex)
+        {
+            animalObjects[currentIndex - 1].SetActive(false);
+        }
+        if (currentIndex < animalObjects.Count)
+        {
+            animalObjects[currentIndex].SetActive(true);
+        }
     }
 }
