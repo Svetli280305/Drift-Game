@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
-public class OverDrawReplacement : MonoBehaviour
+public class Wireframe : MonoBehaviour
 {
     public Shader ReplacementShader;
     public Color OverDrawColor;
@@ -11,13 +11,14 @@ public class OverDrawReplacement : MonoBehaviour
     public Material BlurMaterial;
     public Material AddMaterial;
     [Range(0, 10)]
-    public int Iterations;
+    private int Iterations;
     [Range(0, 4)]
-    public int DownRes;
+    private int DownRes;
     [Range(0, 10)]
-    public float Size;
+    private float Size;
     [Range(0, 3)]
-    public float Intensity;
+    private float Intensity;
+
     public Camera cam;
 
     private void Start()
@@ -34,7 +35,7 @@ public class OverDrawReplacement : MonoBehaviour
         if (AddMaterial != null)
             AddMaterial.SetFloat("_Intensity", Intensity);
 
-        cam.backgroundColor = Color.black;
+        cam.backgroundColor = Color.white;
     }
 
     void OnEnable()
