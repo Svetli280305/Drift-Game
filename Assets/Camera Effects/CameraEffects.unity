@@ -1108,7 +1108,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5174,8 +5174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 3540878979226381135}
   pivot: {fileID: 9075780980925054597}
-  rotationSpeedScale: 1
-  degreesToRotate: 360
+  rotationSpeedScale: 40
+  degreesToRotate: 7200
   totalRotation: 0
   rotating: 1
 --- !u!1 &9075780979983182155
